@@ -10,42 +10,31 @@
  */
 class Solution {
     public ListNode swapPairs(ListNode head) {
-         if(head==null){
-            return null;
+        if(head==null || head.next==null){
+            return head;
         }
-        Stack<Integer> st = new Stack<>();
-        ListNode current = head;
-        ListNode newNode = null;
-        ListNode prev = newNode;
-        while(current!=null){
-            if(st.size()>=2){
-                while(!st.isEmpty()){
-                    if(newNode==null){
-                        newNode = new ListNode(st.pop());
-                        prev = newNode;
-                    }
-                    else{
-                        ListNode temp = new ListNode(st.pop());
-                        prev.next = temp;
-                        prev = prev.next;
-                    }
-                }
-
-            }
-            st.push(current.val);
-            current = current.next;
-        }
-        while(!st.isEmpty()){
-             if(newNode==null){
-                newNode = new ListNode(st.pop());
-                prev = newNode;
+        ListNode first = head;
+        ListNode second = head.next;
+        ListNode prev = null;
+        while(first!=null && second!=null){
+            ListNode third = second.next;
+            second.next = first;
+            first.next = third;
+            if(prev!=null){
+                prev.next = second;
             }
             else{
-                ListNode temp = new ListNode(st.pop());
-                prev.next = temp;
-                prev = prev.next;
+                head=second;
+            }
+            prev = first;
+            first = third;
+            if(third!=null){
+                second = third.next;
+            }
+            else{
+                second = null;
             }
         }
-        return newNode;
+        return head;
     }
 }
