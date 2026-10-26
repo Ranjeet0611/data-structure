@@ -3,42 +3,43 @@
 **Platform:** [AlgoMaster](https://algomaster.io/practice/dsa/swap-nodes-in-pairs) · **Difficulty:** Medium · **Language:** java
 
 ## Problem
-The goal is to swap every two adjacent nodes in a linked list. A key constraint is to modify the existing nodes by re-linking them, not by changing their values or creating new nodes.
+The task is to swap every two adjacent nodes in a linked list. For example, a list 1->2->3->4 should become 2->1->4->3.
 
 ## Approach
-The accepted solution iterates through the original linked list. It pushes node values onto a stack. When the stack has two or more elements, it pops them. It then creates new `ListNode` objects with these values in reversed order. These new nodes are appended to an entirely new linked list. Finally, the head of this new list is returned.
+The solution uses an iterative method. It employs three main pointers: `first`, `second`, and `prev`.
+`first` points to the current node, and `second` points to the next node. These form the pair to be swapped.
+`prev` tracks the node immediately before the current pair.
+The algorithm iterates through the list, identifying pairs. For each pair, it re-arranges the pointers.
+`second` is made to point to `first`, and `first` points to `second.next`.
+The `prev` pointer links the previously processed part of the list to the newly swapped pair's head (`second`).
+Special handling updates the overall list `head` if the first pair is swapped.
+The process continues until no more pairs can be formed.
 
 ## Complexity
-*   **Time Complexity**: O(N). The solution traverses the list once to push N values onto the stack. It then processes these N values to create N new nodes. Stack operations are O(1).
-*   **Space Complexity**: O(N). A stack stores up to N integers. An entirely new linked list with N nodes is constructed. Both contribute O(N) space.
+*   **Time:** O(N), where N is the number of nodes. The algorithm traverses the list once.
+*   **Space:** O(1). It uses a fixed number of auxiliary pointers regardless of list size.
 
 ## Review
-The accepted solution has critical issues. It violates a fundamental problem constraint by creating *new* `ListNode` objects and copying values. The problem requires re-linking *existing* nodes. This approach is also inefficient. It uses O(N) extra space when an O(1) space solution is possible. The logic for stack processing and new list construction is more complex than necessary for this problem.
+The solution is correct and handles various edge cases well. This includes empty lists, single-node lists, and lists with an odd or even number of nodes. The pointer manipulation logic is sound. Variable names are clear, aiding in understanding.
 
 ## Improvements
-The current solution is not optimal and violates a key problem constraint. An optimal solution must modify the `next` pointers of existing nodes directly. This achieves an in-place swap. It significantly reduces space complexity.
-
-The optimal approach uses a **dummy node** to simplify operations. It iteratively re-links pairs of nodes. A `prev` pointer tracks the node before the current pair. It identifies the `first` and `second` nodes of a pair. Then, it carefully adjusts their `next` pointers and the `prev.next` pointer to swap them. The `prev` pointer then advances to prepare for the next pair.
+The accepted solution is already optimal in terms of asymptotic time and space complexity (O(N) time, O(1) space). No further algorithmic improvements are necessary for better performance.
+Minor stylistic improvements could include:
+1.  **Dummy Node:** Using a dummy head node can simplify the logic for updating the list's head.
+2.  **Recursive Approach:** A recursive solution is an alternative. It can be more concise but uses O(N) stack space.
 
 ## Takeaways
-*   **Read Problem Constraints Carefully**: Always understand explicit requirements, like "in-place" or "without modifying values." Violating these makes a solution invalid.
-*   **Linked List Pointer Manipulation**: Mastering how to adjust `next` pointers is crucial for linked list problems. Avoid creating new nodes unless explicitly allowed.
-*   **Dummy/Sentinel Nodes**: Use a dummy node to simplify linked list operations. It handles edge cases, especially when the list head might change.
-*   **Iterative vs. Recursive Solutions**: Iterative solutions for linked lists often use O(1) extra space. Recursive solutions use O(N) space for the call stack.
+*   **Linked List Pointer Manipulation:** This problem is a classic for practicing careful pointer handling (`prev`, `current`, `next`).
+*   **Iterative vs. Recursive Solutions:** Many linked list problems can be solved both ways. Iterative often uses O(1) space.
+*   **Dummy Head Node Pattern:** This pattern simplifies handling modifications at the beginning of a linked list.
+*   **Edge Case Handling:** Always consider empty lists, single-node lists, and lists with odd/even lengths.
 
 ## Where it applies
-This problem uses **Singly Linked Lists**. The optimal solution demonstrates key patterns:
-*   **Pointer Manipulation**: Adjusting `next` pointers to re-arrange nodes. This is fundamental for linked list algorithms.
-*   **Dummy/Sentinel Node**: Simplifies handling the list's head and provides a consistent `prev` reference.
-*   **Iterative Traversal**: Processing the list step-by-step, often for O(1) extra space.
-
-Reach for these patterns when:
-*   You need to modify the structure of a linked list in-place.
-*   You need to handle edge cases at the beginning of a list without special `if (head == null)` checks.
-*   You want to process a list with minimal auxiliary space.
-
-Similar well-known problems these patterns help solve:
-*   Reversing a Linked List
-*   Merging Two Sorted Linked Lists
-*   Removing Nth Node From End of List
-*   Partition List
+The techniques here are fundamental to linked list manipulation.
+*   **Data Structures:** Linked lists are used in queues, stacks, hash map collision resolution, and some OS memory management.
+*   **Patterns:** Pointer manipulation is crucial in low-level programming, embedded systems, and kernel development.
+*   **Similar Problems:** This problem builds a foundation for:
+    *   Reverse Linked List
+    *   Merge Two Sorted Lists
+    *   Remove Nth Node From End of List
+    *   Swap Nodes in K-groups
